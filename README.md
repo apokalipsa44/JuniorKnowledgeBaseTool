@@ -52,7 +52,10 @@ Udzielający (Użytkownik)
 Treść
 Data
 
- 
+![Encje_mvn](media/encje.png)
+
+
+Rys.1 Diagram klas
 
 
 2.	Interfejs
