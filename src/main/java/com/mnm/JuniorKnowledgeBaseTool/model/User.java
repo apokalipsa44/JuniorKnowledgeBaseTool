@@ -4,8 +4,13 @@ package com.mnm.JuniorKnowledgeBaseTool.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Getter
@@ -32,9 +37,11 @@ public class User {
         this.login = login;
         this.password = password;
         this.email = email;
-        this.role = role.toLowerCase();
+        this.role = role.toUpperCase();
     }
 
     @OneToOne
     private Comment comment;
+
+
 }
