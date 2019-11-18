@@ -4,15 +4,31 @@ import com.mnm.JuniorKnowledgeBaseTool.model.User;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepoImpl;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepository;
 import com.mnm.JuniorKnowledgeBaseTool.services.AdminPanelService;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeButton;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.BinderValidationStatus;
+import com.vaadin.flow.data.binder.BindingValidationStatus;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.data.validator.EmailValidator;
+import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Route("admin")
@@ -77,6 +93,74 @@ public class AdminPanel extends VerticalLayout {
 
 
         add(userGrid);
+
+        FormLayout layoutWithBinder = new FormLayout();
+        Binder<User> binder = new Binder<>();
+
+// The object that will be edited
+        User userBeingCreated = new User();
+
+// Create the fields
+        TextField login = new TextField();
+        login.setValueChangeMode(ValueChangeMode.EAGER);
+        TextField email = new TextField();
+        email.setValueChangeMode(ValueChangeMode.EAGER);
+        Checkbox doNotCall = new Checkbox("Do not call");
+        Label infoLabel = new Label();
+        NativeButton save = new NativeButton("Save");
+        NativeButton reset = new NativeButton("Reset");
+
+        layoutWithBinder.addFormItem(login, "Login");
+        layoutWithBinder.addFormItem(email, "E-mail");
+
+// Button bar
+        HorizontalLayout actions = new HorizontalLayout();
+        actions.add(save, reset);
+        save.getStyle().set("marginRight", "10px");
+
+        SerializablePredicate<String> emailPredicate = value -> !email.getValue().trim().isEmpty();
+
+// E-mail specific validators
+        Binder.Binding<User, String> emailBinding = binder.forField(email)
+                .withValidator(new EmailValidator("Incorrect email address"))
+                .bind(User::getEmail, User::setEmail);
+
+
+// First name and last name are required fields
+        login.setRequiredIndicatorVisible(true);
+        email.setRequiredIndicatorVisible(true);
+
+        binder.forField(login)
+                .withValidator(new StringLengthValidator(
+                        "Please add the login", 1, null))
+                .bind(User::getLogin, User::setLogin);
+        /*binder.forField(lastName)
+                .withValidator(new StringLengthValidator(
+                        "Please add the last name", 1, null))
+                .bind(Contact::getLastName, Contact::setLastName);*/
+
+
+// Click listeners for the buttons
+        save.addClickListener(event -> {
+            if (binder.writeBeanIfValid(userBeingCreated)) {
+                infoLabel.setText("Saved bean values: " + userBeingCreated);
+            } else {
+                BinderValidationStatus<User> validate = binder.validate();
+                String errorText = validate.getFieldValidationStatuses()
+                        .stream().filter(BindingValidationStatus::isError)
+                        .map(BindingValidationStatus::getMessage)
+                        .map(Optional::get).distinct()
+                        .collect(Collectors.joining(", "));
+                infoLabel.setText("There are errors: " + errorText);
+            }
+        });
+        reset.addClickListener(event -> {
+            // clear fields by setting null
+            binder.readBean(null);
+            infoLabel.setText("");
+            doNotCall.setValue(false);
+        });
+        add(layoutWithBinder);
     }
 
 }
