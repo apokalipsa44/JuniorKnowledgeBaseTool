@@ -14,8 +14,9 @@ public class UserRepoImpl {
 
     public List<User> findAll() {return userRepository.findAll();}
 
-    /*public User save(User user) {
+    public User save(User user) {
         return userRepository.save(user);
-    }*/
+    }
+
 
 }

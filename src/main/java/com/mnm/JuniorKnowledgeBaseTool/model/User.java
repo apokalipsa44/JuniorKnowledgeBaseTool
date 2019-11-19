@@ -40,6 +40,12 @@ public class User {
         this.role = role.toUpperCase();
     }
 
+    public User(String login, String password, String email) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+    }
+
     @OneToOne
     private Comment comment;
 
