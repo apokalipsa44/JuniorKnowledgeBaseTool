@@ -3,6 +3,7 @@ package com.mnm.JuniorKnowledgeBaseTool.UI;
 
 
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.notification.Notification;
@@ -10,6 +11,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+
+
 
 
 @Route("login")
@@ -20,12 +23,13 @@ public class LoginView extends VerticalLayout  {
     private LoginOverlay login = new LoginOverlay();
 
     public LoginView(){
+        Image image=new Image("frontend/images/login.png", "logo");
         login.setAction("login");
+        login.setTitle(image);
         login.setOpened(true);
-        login.setTitle("Junior Developer Tools 3D");
-        login.setDescription("Please login to proceed");
+        login.setDescription("[login: random]   [pass: random]");
         login.addForgotPasswordListener(e->{
-            Notification.show("Forgot password not yet handled", 30, Notification.Position.TOP_CENTER);
+            Notification.show("Forgot password not yet handled", 2000, Notification.Position.TOP_CENTER);
         });
         getElement().appendChild(login.getElement());
     }
