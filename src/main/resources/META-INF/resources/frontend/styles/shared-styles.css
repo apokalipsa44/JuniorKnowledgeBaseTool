@@ -1,7 +1,53 @@
-<custom-style > <style > html {
-    --lumo-border-radius: 0em;
-    --lumo-font-family: Roboto, monospace;
+<custom-style>
+<style>
 
+html {
+    --lumo-space-xl: 2.5rem;
+    --lumo-space-l: 1.75rem;
+    --lumo-space-m: 1.125rem;
+    --lumo-space-s: 0.75rem;
+    --lumo-space-xs: 0.375rem;
+    --lumo-size-xl: 3rem;
+    --lumo-size-l: 2.5rem;
+    --lumo-size-m: 2rem;
+    --lumo-size-s: 1.75rem;
+    --lumo-size-xs: 1.5rem;
+    --lumo-font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+    --lumo-line-height-m: 1.4;
+    --lumo-line-height-s: 1.2;
+    --lumo-line-height-xs: 1.1;
+    --lumo-border-radius: 0px;
+    --lumo-error-text-color: rgb(231, 24, 24);
+    --lumo-error-color-50pct: rgba(231, 24, 24, 0.5);
+    --lumo-error-color-10pct: rgba(231, 24, 24, 0.1);
+    --lumo-success-text-color: rgb(62, 229, 170);
+    --lumo-success-color-50pct: rgba(62, 229, 170, 0.5);
+    --lumo-success-color-10pct: rgba(62, 229, 170, 0.1);
+    --lumo-error-color: hsl(0, 81%, 50%);
+    --lumo-success-color: hsl(159, 76%, 57%);
+    --lumo-shade-5pct: rgba(26, 26, 26, 0.05);
+    --lumo-shade-10pct: rgba(26, 26, 26, 0.1);
+    --lumo-shade-20pct: rgba(26, 26, 26, 0.2);
+    --lumo-shade-30pct: rgba(26, 26, 26, 0.3);
+    --lumo-shade-40pct: rgba(26, 26, 26, 0.4);
+    --lumo-shade-50pct: rgba(26, 26, 26, 0.5);
+    --lumo-shade-60pct: rgba(26, 26, 26, 0.6);
+    --lumo-shade-70pct: rgba(26, 26, 26, 0.7);
+    --lumo-shade-80pct: rgba(26, 26, 26, 0.8);
+    --lumo-shade-90pct: rgba(26, 26, 26, 0.9);
+    --lumo-shade: hsl(0, 0%, 10%);
+    --lumo-success-contrast-color: hsl(159, 29%, 10%);
+    --lumo-primary-text-color: rgb(57, 62, 70);
+    --lumo-primary-color-50pct: rgba(57, 62, 70, 0.5);
+    --lumo-primary-color-10pct: rgba(57, 62, 70, 0.1);
+    --lumo-primary-color: hsl(217, 10%, 25%);
 }
 
-</style > </custom-style >
+[theme~="dark"] {
+}
+
+</style>
+  </custom-style>
+
+/*color 393e46*/
+
