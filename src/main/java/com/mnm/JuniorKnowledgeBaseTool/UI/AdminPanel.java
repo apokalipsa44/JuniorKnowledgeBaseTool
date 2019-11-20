@@ -19,7 +19,7 @@ import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 
 
-@Route(value = "admin", layout = MainAppView.class)
+@Route(value = "admin", layout = MainView.class)
 
 public class AdminPanel extends VerticalLayout {
     private UserRepository userRepository;

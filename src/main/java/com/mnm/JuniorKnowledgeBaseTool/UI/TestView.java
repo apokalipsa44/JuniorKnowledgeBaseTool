@@ -4,7 +4,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-@Route("puppy")
+@Route(value = "puppy", layout = MainView.class)
 public class TestView extends VerticalLayout {
     public TestView() {
     Button button=new Button("ssij");
