@@ -5,12 +5,14 @@ import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepoImpl;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepository;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.router.Route;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Controller
 public class AdminPanelService  {
     private Grid<User> userGrid = new Grid<>();
     private List<User> userList = new ArrayList<>();

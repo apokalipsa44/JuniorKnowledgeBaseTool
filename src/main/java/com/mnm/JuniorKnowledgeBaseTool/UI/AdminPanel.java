@@ -3,6 +3,7 @@ package com.mnm.JuniorKnowledgeBaseTool.UI;
 import com.mnm.JuniorKnowledgeBaseTool.model.User;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepoImpl;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepository;
+import com.mnm.JuniorKnowledgeBaseTool.services.AddUserService;
 import com.mnm.JuniorKnowledgeBaseTool.services.AdminPanelService;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -17,18 +18,18 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
 
 
 @Route(value = "admin", layout = MainView.class)
-
 public class AdminPanel extends VerticalLayout {
-    private UserRepository userRepository;
+    private AddUserService addUserService;
     private AdminPanelService gridService;
     private UserRepoImpl userRepoImpl;
     //private HorizontalLayout centerLayout;
 
-    public AdminPanel(UserRepository userRepository, AdminPanelService gridService, UserRepoImpl userRepoImpl) {
-        this.userRepository = userRepository;
+    public AdminPanel(UserRepoImpl userRepoImpl, AdminPanelService gridService, AddUserService addUserService) {
+        this.addUserService = addUserService;
         this.gridService = gridService;
         this.userRepoImpl = userRepoImpl;
 
@@ -109,7 +110,7 @@ public class AdminPanel extends VerticalLayout {
         add(statusSelect, updateButton);
 
 
-        NewUserForm newUserForm = new NewUserForm(userRepoImpl);
+        NewUserForm newUserForm = new NewUserForm(addUserService);
         add(new Label());
         add(new Label());
         add(new Label("Add new user"));

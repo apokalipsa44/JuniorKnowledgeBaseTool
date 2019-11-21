@@ -2,11 +2,12 @@ package com.mnm.JuniorKnowledgeBaseTool.repositories;
 
 
 import com.mnm.JuniorKnowledgeBaseTool.model.User;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Component
 public class UserRepoImpl {
     private UserRepository userRepository;
 

@@ -8,13 +8,11 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 
 @Route
-//@PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
 @Theme(Lumo.class)
 public class MainView extends AbstractAppRouterLayout {
 

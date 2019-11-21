@@ -1,30 +1,34 @@
 package com.mnm.JuniorKnowledgeBaseTool.UI;
 
 import com.mnm.JuniorKnowledgeBaseTool.model.User;
+import com.mnm.JuniorKnowledgeBaseTool.model.UserDTO;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepoImpl;
 import com.mnm.JuniorKnowledgeBaseTool.services.AddUserService;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Route("newuserform")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @HtmlImport("styles/shared-styles.css")
 public class NewUserForm extends FormLayout {
-    private AddUserService addUserService;
-    private UserRepoImpl userRepoImpl;
+    private final AddUserService addUserService;
 
-
-    public NewUserForm(UserRepoImpl userRepoImpl) {
+    @Autowired
+    public NewUserForm(AddUserService addUserService) {
+        this.addUserService = addUserService;
 
         setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
 
@@ -55,7 +59,12 @@ public class NewUserForm extends FormLayout {
         Button saveButton = new Button("Save");
         Button clearButton = new Button("Clear");
         saveButton.addClickListener(e->{
-            userRepoImpl.save(new User(login.getValue(), password.getValue(), email.getValue()));
+            UserDTO userDTO = new UserDTO();
+            userDTO.setLogin(login.getValue());
+            userDTO.setEmail(email.getValue());
+            userDTO.setPassword(password.getValue());
+            addUserService.saveUser(userDTO);
+            UI.getCurrent().getPage().reload();
         });
         clearButton.addClickListener(e->{
             login.setValue("");
