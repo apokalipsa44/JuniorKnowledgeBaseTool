@@ -4,10 +4,13 @@ import com.mnm.JuniorKnowledgeBaseTool.model.User;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepoImpl;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepository;
 import com.mnm.JuniorKnowledgeBaseTool.services.AdminPanelService;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -16,11 +19,13 @@ import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 
 
-@Route("admin")
+@Route(value = "admin", layout = MainView.class)
+
 public class AdminPanel extends VerticalLayout {
     private UserRepository userRepository;
     private AdminPanelService gridService;
     private UserRepoImpl userRepoImpl;
+    //private HorizontalLayout centerLayout;
 
     public AdminPanel(UserRepository userRepository, AdminPanelService gridService, UserRepoImpl userRepoImpl) {
         this.userRepository = userRepository;
@@ -79,7 +84,7 @@ public class AdminPanel extends VerticalLayout {
         roleField.setSizeFull();
         roleField.setPlaceholder("Filter");
 
-
+        add("User administration panel");
         add(userGrid);
 
 
@@ -105,8 +110,14 @@ public class AdminPanel extends VerticalLayout {
 
 
         NewUserForm newUserForm = new NewUserForm(userRepoImpl);
+        add(new Label());
+        add(new Label());
+        add(new Label("Add new user"));
+
 
         add(newUserForm);
+
+        setAlignItems(Alignment.CENTER);
 
     }
 
