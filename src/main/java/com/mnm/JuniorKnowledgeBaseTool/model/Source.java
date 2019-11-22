@@ -20,10 +20,14 @@ public class Source {
     @Column(unique = true, nullable = false)
     private String sourceUrl;
 
-    private Enum<SourceType> sourceTypeEnum;
+    private String sourceType;
 
+    private String description;
     @ManyToOne
     private Playlist playlist;
+
+    @OneToMany
+    private List<Comment> comments;
 
     private String thumbnailUrl;
 

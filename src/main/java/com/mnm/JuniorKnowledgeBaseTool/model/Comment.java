@@ -26,6 +26,9 @@ public class Comment {
     @ManyToOne
     private Playlist playlist;
 
+    @ManyToOne
+    private Source source;
+
     public Comment() {
         this.addedDate=LocalDate.now();
     }

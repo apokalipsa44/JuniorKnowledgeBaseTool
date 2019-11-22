@@ -1,4 +1,7 @@
 package com.mnm.JuniorKnowledgeBaseTool.repositories;
 
-public interface SourceRepository {
+import com.mnm.JuniorKnowledgeBaseTool.model.Source;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SourceRepository extends JpaRepository<Source, Long> {
 }
