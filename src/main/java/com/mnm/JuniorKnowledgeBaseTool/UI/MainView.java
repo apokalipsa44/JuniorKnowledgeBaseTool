@@ -8,50 +8,28 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 
 @Route
-//@PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
-@Theme(Lumo.class)
+@Theme(value = Lumo.class, variant = Lumo.LIGHT)
 public class MainView extends AbstractAppRouterLayout {
 
     private final Tabs tabs= new Tabs();
 
     public MainView() {
-        Tab tab = new Tab("Strona główna");
+        Tab tab = new Tab(new RouterLink("Admin", AdminView.class));
+        Tab tab1 = new Tab(new RouterLink("New Source", NewSource.class));
+        Tab tab2 = new Tab(new RouterLink("Logout", LoginView.class));
 
 
-        Tab tab1 = new Tab("Katalog");
-
-
-        Tab tab2 = new Tab("Logout");
-
-
-        /*Map<Tab, Component> tabsWithPage = new HashMap<>();
-        //tabsWithPage.put(tab, page1);
-        //tabsWithPage.put(tab1, page2);*/
         tabs.add(tab);
         tabs.add(tab1);
         tabs.add(tab2);
-        //Div pages = new Div(page1, page2);
-
-
-        /*Set<Component> showPage = Stream.of(page1)
-                .collect(Collectors.toSet());
-
-        tabs.addSelectedChangeListener(event -> {
-            showPage.forEach(page -> page.setVisible(false));
-            showPage.clear();
-            Component selectedPage = tabsWithPage.get(tabs.getSelectedTab());
-            selectedPage.setVisible(true);
-            showPage.add(selectedPage);
-        });*/
 
         tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
-        //tabs.setHeight("200px");
         tabs.setFlexGrowForEnclosedTabs(1);
         getElement().appendChild(tabs.getElement());
     }
