@@ -7,15 +7,22 @@ import java.io.InputStream;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.apache.commons.io.FileUtils;
+import org.springframework.stereotype.Service;
 
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-
-public class ScreeenMain {
+@Service
+public class ThumbnailCreator {
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+        ThumbnailCreator  thumbnailCreator=new ThumbnailCreator();
+        thumbnailCreator.createThumbnailFromUrl("https://vaadin.com/docs/v13/flow/binding-data/tutorial-flow-components-binder.html");
+    }
+
+    public String createThumbnailFromUrl(String url) throws IOException, NoSuchAlgorithmException {
+        String thumbnailUrl;
         String customerKey = "b4b44d";
         String secretPhrase = "";//leave secret phrase empty, if not needed
 
@@ -29,7 +36,7 @@ public class ScreeenMain {
 
         Map options = new HashMap();
 // mandatory parameter
-        options.put("url", "https://developer.android.com");
+        options.put("url", url);
 // all next parameters are optional, see our website screenshot API guide for more details
         options.put("dimension", "1366x768"); // or "1366xfull" for full length screenshot
         options.put("device", "desktop");
@@ -48,16 +55,23 @@ public class ScreeenMain {
         InputStream in = openConnection.getInputStream();
 
 
+        thumbnailUrl=uploadThumbnail(cloudinary, in);
+//        Files.copy(in, Paths.get(output), StandardCopyOption.REPLACE_EXISTING);
+//        System.out.println("Screenshot saved as " + output);
+        return thumbnailUrl;
+    }
+
+    public String uploadThumbnail(Cloudinary cloudinary, InputStream in) throws IOException {
+        Map  uploadResult=null;
         String output = "out.png";
         File file=new File(output);
         FileUtils.copyInputStreamToFile(in, file);
 
-        cloudinary.uploader().upload(file, ObjectUtils.asMap(
+        uploadResult=cloudinary.uploader().upload(file, ObjectUtils.asMap(
 
                 "resource_type","auto"
         ));
-//        Files.copy(in, Paths.get(output), StandardCopyOption.REPLACE_EXISTING);
-//        System.out.println("Screenshot saved as " + output);
+        return String.valueOf(uploadResult.get("url"));
     }
 }
 //b4b44d
