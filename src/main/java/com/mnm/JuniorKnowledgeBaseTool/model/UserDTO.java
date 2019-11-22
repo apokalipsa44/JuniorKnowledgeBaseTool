@@ -16,11 +16,6 @@ public class UserDTO {
     private String email;
     private String role;
 
-    /*public UserDTO(String login, String password, String email) {
-        this.login = login;
-        this.password = password;
-        this.email = email;
-    }*/
 
     @Override
     public boolean equals(Object o) {
