@@ -1,4 +1,4 @@
-package com.mnm.JuniorKnowledgeBaseTool.services.screenshot;
+package com.mnm.JuniorKnowledgeBaseTool.services.screenshotFromWebpage;
 
 import java.io.File;
 import java.io.IOException;

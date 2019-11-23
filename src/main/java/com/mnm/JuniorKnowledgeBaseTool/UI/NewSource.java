@@ -2,7 +2,7 @@ package com.mnm.JuniorKnowledgeBaseTool.UI;
 
 import com.mnm.JuniorKnowledgeBaseTool.model.Source;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.SourceRepoImpl;
-import com.mnm.JuniorKnowledgeBaseTool.services.screenshot.ThumbnailCreator;
+import com.mnm.JuniorKnowledgeBaseTool.services.screenshotFromWebpage.ThumbnailCreator;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -13,7 +13,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -44,33 +43,56 @@ public class NewSource extends VerticalLayout {
         binder.forField(sourceTypeSelect).bind(Source::getSourceType, Source::setSourceType);
         binder.forField(description).bind(Source::getDescription, Source::setDescription);
 
-        sourceTypeSelect.setItems("video", "webpage");
+        sourceTypeSelect.setItems("Other video", "Webpage", "YouTube");
         saveButton.addClickListener(e -> {
             Source source = new Source();
+            // source options
             try {
                 binder.writeBean(source);
             } catch (ValidationException ex) {
                 ex.printStackTrace();
             }
-            // creates thumbnail form url
-            try {
-                String thumbnailUrl = thumbnailCreator.createThumbnailFromUrl(source.getSourceUrl());
-                source.setThumbnailUrl(thumbnailUrl);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (NoSuchAlgorithmException ex) {
-                ex.printStackTrace();
-            }
-            //binds saves values from form to new source
+            // ooption "webppage"
+            if(source.getSourceType().equals("Webpage")){
+                // creates thumbnail form url
+                try {
+                    String thumbnailUrl = thumbnailCreator.createThumbnailFromUrl(source.getSourceUrl());
+                    source.setThumbnailUrl(thumbnailUrl);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (NoSuchAlgorithmException ex) {
+                    ex.printStackTrace();
+                }
+                //binds saves values from form to new source
 
-            System.out.println(source.getThumbnailUrl());
-            sourceRepo.save(source);
+                System.out.println(source.getThumbnailUrl());
+                sourceRepo.save(source);
+            }
+
+
+            // option "Youtube"
+            if(source.getSourceType().equals("YouTube")){
+                System.out.println(createThumbnailFromYoutube());
+            }
+            // option "other video""Other video"
+            if (source.getSourceType().equals("Other video")) {
+                source.setThumbnailUrl(createThumbnailFromDefault());
+                sourceRepo.save(source);
+            }
         });
         deleteButton.addClickListener(e -> {
 
         });
         add(text, name, url, sourceTypeSelect, description, saveButton, deleteButton);
 
+    }
+
+    private String createThumbnailFromDefault() {
+        return "frontend/images/default_video.jpg";
+    }
+
+    private String createThumbnailFromYoutube() {
+        return "youtube";
     }
 
 
