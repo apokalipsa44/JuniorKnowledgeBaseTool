@@ -26,12 +26,11 @@ public class Source {
     @ManyToOne
     private Playlist playlist;
 
-    @OneToMany
+    //    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "source", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     private String thumbnailUrl;
-
-
 
 
 }

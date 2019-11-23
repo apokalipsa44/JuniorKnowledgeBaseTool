@@ -38,7 +38,7 @@ public class ThumbnailCreator {
 // mandatory parameter
         options.put("url", url);
 // all next parameters are optional, see our website screenshot API guide for more details
-        options.put("dimension", "1366x768"); // or "1366xfull" for full length screenshot
+        options.put("dimension", "320x240"); // or "1366xfull" for full length screenshot
         options.put("device", "desktop");
         options.put("format", "png");
         options.put("cacheLimit", "0");
