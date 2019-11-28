@@ -1,6 +1,7 @@
 package com.mnm.JuniorKnowledgeBaseTool.services;
 
 import com.mnm.JuniorKnowledgeBaseTool.model.User;
+import com.mnm.JuniorKnowledgeBaseTool.model.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +18,10 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
+        if(user.getRole() == null) {
+            return Collections.singletonList(new SimpleGrantedAuthority(UserRole.USER));
+        }
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
     }
 
     @Override

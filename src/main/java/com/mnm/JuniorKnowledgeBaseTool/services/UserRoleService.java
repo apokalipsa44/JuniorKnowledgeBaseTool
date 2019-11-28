@@ -23,7 +23,7 @@ public class UserRoleService {
 
     public ComboBox<String> setRoleSelect() {
 
-        roleSelect.setItems("ROLE_ADMIN", "ROLE_USER");
+        roleSelect.setItems("ADMIN", "USER");
 
     return roleSelect;
 

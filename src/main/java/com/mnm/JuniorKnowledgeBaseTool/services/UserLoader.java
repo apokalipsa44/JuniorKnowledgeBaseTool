@@ -26,13 +26,13 @@ public class UserLoader {
 
     @EventListener(ApplicationReadyEvent.class)
     public void createUser() {
-        User user = new User("janusz", passwordEncoder().encode("janusz123"), "janusz123@junior.pl", "ROLE_ADMIN");
+        User user = new User("janusz", passwordEncoder().encode("janusz123"), "janusz123@junior.pl", UserRole.ADMIN);
         userRepository.save(user);
 
-        User user1 = new User("michau", passwordEncoder().encode("michaumistrz"), "michau123@junior.pl", "ROLE_ADMIN");
+        User user1 = new User("michau", passwordEncoder().encode("michaumistrz"), "michau123@junior.pl", UserRole.ADMIN);
         userRepository.save(user1);
 
-        User user2 = new User("random", passwordEncoder().encode("random"), "random@random.pl", "ROLE_USER");
+        User user2 = new User("random", passwordEncoder().encode("random"), "random@random.pl", UserRole.USER);
         userRepository.save(user2);
 
     }

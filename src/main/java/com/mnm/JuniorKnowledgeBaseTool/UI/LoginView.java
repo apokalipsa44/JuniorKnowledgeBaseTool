@@ -2,6 +2,7 @@ package com.mnm.JuniorKnowledgeBaseTool.UI;
 
 
 
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.AbstractLogin;
@@ -9,17 +10,23 @@ import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.router.AfterNavigationEvent;
+import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.InitialPageSettings;
+import com.vaadin.flow.server.PageConfigurator;
+import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 
 
-
+//@Tag("login-view")
 @Route("login")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @HtmlImport("styles/shared-styles.css")
-public class LoginView extends VerticalLayout  {
+public class LoginView extends VerticalLayout/*PolymerTemplate<LoginView.Model>*/ implements PageConfigurator, AfterNavigationObserver {
 
     private LoginOverlay login = new LoginOverlay();
 
@@ -53,5 +60,18 @@ public class LoginView extends VerticalLayout  {
 // todo set main page
     }
 
+    @Override
+    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
+
+    }
+
+    @Override
+    public void configurePage(InitialPageSettings initialPageSettings) {
+
+    }
+
+    public interface Model extends TemplateModel {
+        void setError(boolean error);
+    }
 }
 
