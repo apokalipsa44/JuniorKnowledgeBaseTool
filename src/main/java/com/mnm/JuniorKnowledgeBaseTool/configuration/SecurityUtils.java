@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public class SecurityUtils {
     public SecurityUtils() {
     }
-    public static String getUsername() {
+    public static String getLogin() {
         SecurityContext context = SecurityContextHolder.getContext();
         UserDetails userDetails = (UserDetails) context.getAuthentication().getPrincipal();
         return userDetails.getUsername();
