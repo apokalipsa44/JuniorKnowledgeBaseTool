@@ -45,9 +45,9 @@ public class User {
         this.password = password;
         this.email = email;
     }
-
-    @OneToOne
-    private Comment comment;
+//
+//    @OneToOne
+//    private Comment comment;
 
 
 }

@@ -19,12 +19,12 @@ public class Playlist {
 
     @Column(unique = true, nullable = false)
     private String playlistName;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String playlistUrl;
-    @OneToMany
-    private List<Source> sources;
-    @OneToMany
-    private List<Comment> comments;
+//    @OneToMany
+//    private List<Source> sources;
+//    @OneToMany
+//    private List<Comment> comments;
 
 
 

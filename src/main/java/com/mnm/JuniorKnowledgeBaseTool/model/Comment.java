@@ -19,15 +19,15 @@ public class Comment {
     private String text;
 
     private LocalDate addedDate;
-
-    @OneToOne
-    private User user;
-
-    @ManyToOne
-    private Playlist playlist;
-
-    @ManyToOne
-    private Source source;
+//
+//    @OneToOne
+//    private User user;
+//
+//    @ManyToOne
+//    private Playlist playlist;
+//
+//    @ManyToOne
+//    private Source source;
 
     public Comment() {
         this.addedDate=LocalDate.now();
