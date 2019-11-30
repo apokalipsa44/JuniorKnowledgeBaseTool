@@ -1,8 +1,8 @@
 package com.mnm.JuniorKnowledgeBaseTool.model;
 
 public class UserRole {
-    public static final String USER = "user";
-    public static final String ADMIN = "admin";
+    public static final String USER = "ROLE_USER";
+    public static final String ADMIN = "ROLE_ADMIN";
 
     public UserRole() {
     }

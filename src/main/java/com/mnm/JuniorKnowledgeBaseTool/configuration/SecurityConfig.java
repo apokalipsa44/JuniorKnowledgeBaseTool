@@ -9,6 +9,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,7 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public User currentUser(UserRepository userRepository) {
-        return userRepository.findByLogin(SecurityUtils.getLogin());
+        return userRepository.findByUsername(SecurityUtils.getUsername());
+    }
+
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
@@ -51,15 +59,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestCache().requestCache(new CustomRequestCache())
                 .and()
                 .authorizeRequests()
+/*
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                 //.anyRequest().hasAnyAuthority(UserRole.getAllRoles())
                 /*.antMatchers("/admin").permitAll()
                 .antMatchers("/myplaylists").authenticated()
+
+ */
+                .antMatchers("/admin").permitAll()
+                .antMatchers("/myplaylists").permitAll()
+
                 .antMatchers("/newuserform").permitAll()
-                .antMatchers("/puppy").hasRole("USER")*/
+                .antMatchers("/puppy").hasRole("ADMIN")
                 .and()
-                .formLogin().loginPage("/login").permitAll().loginProcessingUrl("/login").failureUrl("/login?error")
-                .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
+                .formLogin().usernameParameter("username").loginPage("/login").permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/");
 

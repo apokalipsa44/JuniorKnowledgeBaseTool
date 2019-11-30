@@ -11,7 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class UserDTO {
     private Long id;
-    private String login;
+    private String username;
     private String password;
     private String email;
     private String role;
@@ -23,7 +23,7 @@ public class UserDTO {
         if (o == null || getClass() != o.getClass()) return false;
         UserDTO userDTO = (UserDTO) o;
         return id.equals(userDTO.id) &&
-                Objects.equals(login, userDTO.login) &&
+                Objects.equals(username, userDTO.username) &&
                 password.equals(userDTO.password) &&
                 email.equals(userDTO.email) &&
                 Objects.equals(role, userDTO.role);
@@ -31,14 +31,14 @@ public class UserDTO {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, email, role);
+        return Objects.hash(id, username, password, email, role);
     }
 
     @Override
     public String toString() {
         return "UserDTO{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +

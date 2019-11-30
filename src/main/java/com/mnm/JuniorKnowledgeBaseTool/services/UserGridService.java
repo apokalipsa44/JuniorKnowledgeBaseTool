@@ -2,8 +2,6 @@ package com.mnm.JuniorKnowledgeBaseTool.services;
 
 import com.mnm.JuniorKnowledgeBaseTool.model.User;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepoImpl;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.textfield.TextField;
@@ -43,7 +41,7 @@ public class UserGridService {
         Grid.Column<User> userIdColumn = userGrid
                 .addColumn(User::getId).setHeader("Id");
         Grid.Column<User> userLoginColumn = userGrid
-                .addColumn(User::getLogin).setHeader("Login");
+                .addColumn(User::getUsername).setHeader("Login");
         Grid.Column<User> userEmailColumn = userGrid
                 .addColumn(User::getEmail).setHeader("Email");
         Grid.Column<User> userRoleColumn = userGrid
@@ -59,8 +57,8 @@ public class UserGridService {
         idField.setSizeFull();
         idField.setPlaceholder("Filter");
 
-        //login Filter
-        loginField.addValueChangeListener(event -> dataProvider.addFilter(user -> StringUtils.containsIgnoreCase(user.getLogin(), loginField.getValue())));
+        //username Filter
+        loginField.addValueChangeListener(event -> dataProvider.addFilter(user -> StringUtils.containsIgnoreCase(user.getUsername(), loginField.getValue())));
         loginField.setValueChangeMode(ValueChangeMode.EAGER);
 
         filterRow.getCell(userLoginColumn).setComponent(loginField);
