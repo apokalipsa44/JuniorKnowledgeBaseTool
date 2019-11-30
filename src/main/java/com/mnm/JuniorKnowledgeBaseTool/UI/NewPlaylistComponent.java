@@ -26,7 +26,7 @@ private PlaylistRepository playlistRepository;
         this.playlistRepository=playlistRepository;
 
         commentListService=new CommentListService(commentRepository);
-        commentAddForm=commentListService.commentAddForm(commentRepository);
+        //commentAddForm=commentListService.commentAddForm(commentRepository);
 
         addPlaylist.setText("add");
         addPlaylist.addClickListener(e -> {
@@ -35,7 +35,7 @@ private PlaylistRepository playlistRepository;
                         playlistRepository.save(playlist);
             System.out.println("playlist saved");
         });
-        add(playlistName, addPlaylist, commentAddForm);
+        add(playlistName, addPlaylist/*,commentAddForm*/);
 
     }
 }

@@ -4,13 +4,8 @@ package com.mnm.JuniorKnowledgeBaseTool.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
 
 @Entity
 @Getter
@@ -22,7 +17,7 @@ public class User {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String login;
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -33,15 +28,15 @@ public class User {
     //private Enum<UserRole> role;
     private String role;
 
-    public User(String login, String password, String email, String role) {
-        this.login = login;
+    public User(String username, String password, String email, String role) {
+        this.username = username;
         this.password = password;
         this.email = email;
-        this.role = role.toUpperCase();
+        this.role = role;
     }
 
-    public User(String login, String password, String email) {
-        this.login = login;
+    public User(String username, String password, String email) {
+        this.username = username;
         this.password = password;
         this.email = email;
     }

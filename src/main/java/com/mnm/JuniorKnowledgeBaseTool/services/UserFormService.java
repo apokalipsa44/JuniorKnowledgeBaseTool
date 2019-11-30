@@ -9,8 +9,13 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.server.VaadinService;
+import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
+
+import javax.servlet.http.HttpServletRequest;
 
 @SpringComponent
 @UIScope
@@ -18,7 +23,7 @@ public class UserFormService extends FormLayout {
     private final AddUserService addUserService;
     private UserDTO userDTO = new UserDTO();
     private FormLayout.ResponsiveStep responsiveStep = new FormLayout.ResponsiveStep("0", 1);
-    private TextField login = new TextField("Enter login");
+    private TextField login = new TextField("Enter username");
     private EmailField email = new EmailField("Email");
     private PasswordField password = new PasswordField("Enter password");
     private PasswordField passwordConfirm = new PasswordField("Confirm password");
@@ -46,11 +51,14 @@ public class UserFormService extends FormLayout {
         }
 
         saveButton.addClickListener(e->{
-            this.userDTO.setLogin(login.getValue());
+            System.out.println(VaadinServletRequest.getCurrent());
+            System.out.println(VaadinServletRequest.getCurrent().getHttpServletRequest().getPathTranslated());
+            System.out.println(VaadinServletRequest.getCurrent().getRequestURI());
+            this.userDTO.setUsername(login.getValue());
             this.userDTO.setEmail(email.getValue());
             this.userDTO.setPassword(password.getValue());
             addUserService.saveUser(userDTO);
-            System.out.println(UI.getCurrent().getRouter().getUrl(NewUserForm.class));
+
             if(UI.getCurrent().getRouter().getUrl(NewUserForm.class).equals("newuserform")) {
                 getUI().ifPresent(ui -> ui.navigate("login"));
                 System.out.println(getUI());
