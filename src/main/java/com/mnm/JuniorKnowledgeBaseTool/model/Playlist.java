@@ -21,8 +21,9 @@ public class Playlist {
     private String playlistName;
     @Column(unique = true)
     private String playlistUrl;
-//    @OneToMany
-//    private List<Source> sources;
+
+    @OneToMany
+    private List<Source> sources;
 //    @OneToMany
 //    private List<Comment> comments;
 
