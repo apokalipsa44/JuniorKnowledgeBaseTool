@@ -66,10 +66,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/myplaylists").authenticated()
 
  */
-                .antMatchers("/admin").permitAll()
-                .antMatchers("/myplaylists").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/my_playlists").authenticated()
 
                 .antMatchers("/newuserform").permitAll()
+                .antMatchers("/sourcecomponent").permitAll()
+                .antMatchers("/newsource").authenticated()
                 .antMatchers("/puppy").hasRole("ADMIN")
                 .and()
                 .formLogin().usernameParameter("username").loginPage("/login").permitAll()
