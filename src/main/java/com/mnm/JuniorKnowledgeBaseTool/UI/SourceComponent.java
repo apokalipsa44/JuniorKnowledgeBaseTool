@@ -27,44 +27,26 @@ public class SourceComponent extends HorizontalLayout {
     private List<Source> sources = new ArrayList<>();
 
     private SourceRepoImpl sourceRepo;
-private CommentListService commentListService;
-private CommentRepository commentRepository;
+    private CommentListService commentListService;
+    private CommentRepository commentRepository;
 
     public SourceComponent(SourceRepoImpl sourceRepo, CommentListService commentListService, CommentRepository commentRepository) {
         this.sourceRepo = sourceRepo;
-        this.commentListService=commentListService;
-        this.commentRepository=commentRepository;
+        this.commentListService = commentListService;
+        this.commentRepository = commentRepository;
 
         sources = sourceRepo.findAll();
 
         sourceGrid.setItems(sources);
-//        sourceGrid.removeColumnByKey("Thumbnail Url");
-//        sourceGrid.removeColumnByKey("Id");
+        sourceGrid.removeAllColumns();
         sourceGrid.setHeightByRows(true);
-        sourceGrid.addColumn(new ComponentRenderer<>(source -> {
+        Grid.Column<Source> thumbnailColumn = sourceGrid.addColumn(new ComponentRenderer<>(source -> {
             return new Image(source.getThumbnailUrl(), "thumbnail");
         }));
-        sourceGrid.addColumn(new ComponentRenderer<>(source -> {
-            Accordion accordion=new Accordion();
-            VerticalLayout comments=new VerticalLayout();
-            Button button=new Button("ddj");
-            TextArea textArea = new TextArea("Description");
-            textArea.getStyle().set("maxHeight", "150px");
-            textArea.setPlaceholder("Add comment");
-            textArea.addValueChangeListener(textAreaStringComponentValueChangeEvent -> {
-                Comment comment=new Comment();
-                comment.setText(textArea.getValue());
-                commentRepository.save(comment);
-                commentListService.commentListUpdate();
-            });
-            comments.add(button);
-            comments.add(textArea);
-            comments.add(commentListService.createCommentGrid(commentRepository));
-accordion.add("Comments",comments);
-            return accordion;
-        }));
+        Grid.Column<Source> sourceNameColumn = sourceGrid.addColumn(Source::getName);
+        Grid.Column<Source> sourceDescription = sourceGrid.addColumn(Source::getDescription);
 
-
+//        sourceGrid.setColumns("thumbnailColumn", "sourceNameColumn", "sourceDescription");
 
         add(sourceGrid);
 

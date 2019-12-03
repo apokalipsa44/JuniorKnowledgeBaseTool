@@ -10,6 +10,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
+import java.util.UUID;
+
 @Route
 public class NewPlaylistComponent extends HorizontalLayout {
     private TextField playlistName = new TextField();
@@ -32,10 +34,13 @@ private PlaylistRepository playlistRepository;
         addPlaylist.addClickListener(e -> {
             Playlist playlist = new Playlist();
             playlist.setPlaylistName(playlistName.getValue());
-                        playlistRepository.save(playlist);
+            playlist.setPlaylistUrl(UUID.randomUUID().toString());
+            System.out.println(playlist.getPlaylistUrl());
+            playlistRepository.save(playlist);
             System.out.println("playlist saved");
         });
         add(playlistName, addPlaylist/*,commentAddForm*/);
+
 
     }
 }
