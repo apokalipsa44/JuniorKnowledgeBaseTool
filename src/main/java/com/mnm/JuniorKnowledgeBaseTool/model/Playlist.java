@@ -22,10 +22,10 @@ public class Playlist {
     @Column(unique = true)
     private String playlistUrl;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Source> sources;
-//    @OneToMany
-//    private List<Comment> comments;
+    //@OneToMany
+    //private List<Comment> comments;
 
 
 

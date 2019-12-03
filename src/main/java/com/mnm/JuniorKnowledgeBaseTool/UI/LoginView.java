@@ -57,8 +57,8 @@ public class LoginView extends VerticalLayout/*PolymerTemplate<LoginView.Model>*
             log.info("I jak poszło? {}", isAuthenticated);
             if (isAuthenticated) {
                 //UI.getCurrent().navigate("admin");
-                login.setAction("admin");
-                getUI().ifPresent(ui -> ui.navigate(AdminView.class));
+                login.setAction("my_playlists");
+                getUI().ifPresent(ui -> ui.navigate(MyPlaylists.class));
                 UI.getCurrent().getPage().reload();
                 log.info("Bangla?");
             } else {
