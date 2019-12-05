@@ -11,6 +11,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.listbox.ListBox;
@@ -20,13 +21,16 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Route(value = "my_playlists", layout = MainView.class)
 
@@ -73,12 +77,19 @@ public class MyPlaylists extends HorizontalLayout {
             button.setText(playlist.getPlaylistName());
             button.addClickListener(buttonClickEvent -> {
                 System.out.println("Klikałke");
-                for (Playlist playlist1 : playlistGrid.getSelectedItems()) {
-                    String route = UI.getCurrent().getRouter().getUrl(SourceComponent.class, playlist1.getPlaylistUrl());
-                    System.out.println(route);
-                    UI.getCurrent().navigate(route);
-                }
-                new Notification("przechodzi na widok sources z parametrem playlist");
+//                for (Playlist playlist1 : playlistGrid.getSelectedItems()) {
+//                    String route = UI.getCurrent().getRouter().getUrl(SourceComponent.class, playlist1.getPlaylistUrl());
+//                    System.out.println(route);
+//                    UI.getCurrent().navigate(route);
+//                }
+
+//                String route = UI.getCurrent().getRouter().getUrl(SourceComponent.class, playlist.getPlaylistUrl());
+                Map<String, String> map=new HashMap<>();
+                map.put("playlistId", String.valueOf(playlist.getId()));
+                QueryParameters queryParameters=QueryParameters.simple(map);
+                UI.getCurrent().navigate("sources", queryParameters);
+
+                System.out.println("++++++++++");
             });
             return button;
         })).setHeader("Playlist");

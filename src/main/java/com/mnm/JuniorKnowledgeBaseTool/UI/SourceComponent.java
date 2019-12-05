@@ -9,9 +9,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -20,8 +18,9 @@ import org.springframework.context.event.EventListener;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-@Route
+@Route(value = "sources")
 public class SourceComponent extends HorizontalLayout implements HasUrlParameter<String> {
 
 
@@ -29,11 +28,25 @@ public class SourceComponent extends HorizontalLayout implements HasUrlParameter
     private Grid<Source> sourceGrid = new Grid<>(Source.class);
     private List<Source> sources = new ArrayList<>();
     private String playlistUrl;
+    private String playlistId;
 
     private SourceRepoImpl sourceRepo;
     private CommentListService commentListService;
     private CommentRepository commentRepository;
     private PlaylistRepository playlistRepository;
+
+    @Override
+    public void setParameter(BeforeEvent beforeEvent,
+                             @OptionalParameter String parameter) {
+
+            Location location = beforeEvent.getLocation();
+            QueryParameters queryParameters = location.getQueryParameters();
+
+            Map<String, List<String>> parametersMap = queryParameters.getParameters();
+            playlistId=parametersMap.get("playlistId").get(0);
+        System.out.println(playlistId);
+
+    }
 
     public SourceComponent(SourceRepoImpl sourceRepo, CommentListService commentListService, CommentRepository commentRepository, PlaylistRepository playlistRepository) {
         this.sourceRepo = sourceRepo;
@@ -62,10 +75,4 @@ public class SourceComponent extends HorizontalLayout implements HasUrlParameter
     }
 
 
-    @Override
-    public void setParameter(BeforeEvent beforeEvent, String s) {
-        System.out.println(beforeEvent.getLocation());
-        this.playlistUrl = s;
-        System.out.println("Parameter: " + playlistUrl);
-    }
 }
