@@ -1,5 +1,6 @@
 package com.mnm.JuniorKnowledgeBaseTool.repositories;
 
+import com.mnm.JuniorKnowledgeBaseTool.model.Playlist;
 import com.mnm.JuniorKnowledgeBaseTool.model.Source;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,9 @@ public class SourceRepoImpl {
 
     public Source save(Source source){
         return sourceRepository.save(source);
+    }
+
+    public List<Source> findAllByPlaylist(Playlist playlist) {
+        return sourceRepository.findAllByPlaylist(playlist);
     }
 }

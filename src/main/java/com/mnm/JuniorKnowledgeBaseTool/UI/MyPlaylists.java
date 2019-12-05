@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Route(value = "my_playlists", layout = MainView.class)
+
 public class MyPlaylists extends HorizontalLayout {
     private HorizontalLayout newPlaylistLayout = new HorizontalLayout();
     private TextField playlistName = new TextField();
@@ -72,7 +73,11 @@ public class MyPlaylists extends HorizontalLayout {
             button.setText(playlist.getPlaylistName());
             button.addClickListener(buttonClickEvent -> {
                 System.out.println("Klikałke");
-                UI.getCurrent().navigate("my_playlists"+"/"+playlist.getId());
+                for (Playlist playlist1 : playlistGrid.getSelectedItems()) {
+                    String route = UI.getCurrent().getRouter().getUrl(SourceComponent.class, playlist1.getPlaylistUrl());
+                    System.out.println(route);
+                    UI.getCurrent().navigate(route);
+                }
                 new Notification("przechodzi na widok sources z parametrem playlist");
             });
             return button;
