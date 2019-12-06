@@ -26,7 +26,7 @@ public class NewSource extends VerticalLayout {
     private TextArea description = new TextArea("description");
     private ComboBox<String> sourceTypeSelect = new ComboBox<>("Source type select");
     private Button saveButton = new Button("Save");
-    private Button deleteButton = new Button("Remove");
+
 
     private Binder<Source> binder = new Binder<>(Source.class);
 
@@ -78,12 +78,11 @@ public class NewSource extends VerticalLayout {
             if (source.getSourceType().equals("Other video")) {
                 source.setThumbnailUrl(createThumbnailFromDefault());
                 sourceRepo.save(source);
+                System.out.println("source saved");
             }
         });
-        deleteButton.addClickListener(e -> {
 
-        });
-        add(text, name, url, sourceTypeSelect, description, saveButton, deleteButton);
+        add(text, name, url, sourceTypeSelect, description, saveButton);
 
     }
 

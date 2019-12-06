@@ -10,6 +10,7 @@ import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Hr;
@@ -23,6 +24,8 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -33,7 +36,8 @@ import java.util.List;
 import java.util.Map;
 
 @Route(value = "my_playlists", layout = MainView.class)
-
+//@Theme(value = Lumo.class, variant = Lumo.LIGHT)
+@HtmlImport("styles/shared-styles.css")
 public class MyPlaylists extends HorizontalLayout {
     private HorizontalLayout newPlaylistLayout = new HorizontalLayout();
     private TextField playlistName = new TextField();
