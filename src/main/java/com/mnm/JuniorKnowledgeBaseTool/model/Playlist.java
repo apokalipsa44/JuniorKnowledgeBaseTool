@@ -22,7 +22,7 @@ public class Playlist {
     @Column(unique = true)
     private String playlistUrl;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "playlist", cascade = CascadeType.ALL)
     private List<Source> sources;
     //@OneToMany
     //private List<Comment> comments;

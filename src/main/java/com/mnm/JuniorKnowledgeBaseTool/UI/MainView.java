@@ -5,6 +5,7 @@ import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.AppLayoutMenu;
 import com.vaadin.flow.component.applayout.AppLayoutMenuItem;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -26,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Route
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
+@HtmlImport("styles/shared-styles.css")
 public class MainView extends AbstractAppRouterLayout {
 
     private final Tabs tabs= new Tabs();
