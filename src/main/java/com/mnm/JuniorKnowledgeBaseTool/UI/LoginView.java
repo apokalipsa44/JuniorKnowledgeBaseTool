@@ -32,7 +32,7 @@ import java.util.Collections;
 //@Tag("username-view")
 @Route("login")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
-@HtmlImport("styles/shared-styles.css")
+@HtmlImport("styles/shared-styles.html")
 @Slf4j
 public class LoginView extends VerticalLayout/*PolymerTemplate<LoginView.Model>*/ implements PageConfigurator, AfterNavigationObserver {
     private AuthenticationManager authenticationManager;
@@ -63,7 +63,6 @@ public class LoginView extends VerticalLayout/*PolymerTemplate<LoginView.Model>*
                 log.info("Bangla?");
             } else {
                 login.setError(true);
-                login.setAction("/");
             }
         });
         //login.addLoginListener(this::authenticate);

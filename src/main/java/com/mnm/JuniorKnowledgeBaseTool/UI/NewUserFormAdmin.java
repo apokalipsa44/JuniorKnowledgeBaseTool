@@ -9,14 +9,14 @@ import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-@Route("newuserform")
+@Route
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @HtmlImport("styles/shared-styles.html")
-public class NewUserForm extends FormLayout {
+public class NewUserFormAdmin extends FormLayout {
     private final UserFormService userFormService;
 
     @Autowired
-    public NewUserForm(UserFormService userFormService) {
+    public NewUserFormAdmin(UserFormService userFormService) {
         this.userFormService = userFormService;
 
         add(userFormService);

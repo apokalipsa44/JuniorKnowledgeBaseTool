@@ -6,6 +6,7 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.AppLayoutMenu;
 import com.vaadin.flow.component.applayout.AppLayoutMenuItem;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -27,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Route
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
-@HtmlImport("styles/shared-styles.css")
+@HtmlImport("styles/shared-styles.html")
 public class MainView extends AbstractAppRouterLayout {
 
     private final Tabs tabs= new Tabs();
@@ -60,7 +61,11 @@ public class MainView extends AbstractAppRouterLayout {
 
     @Override
     protected void configure(AppLayout appLayout, AppLayoutMenu appLayoutMenu) {
-        appLayout.setBranding(new Span("JuniorDeveloperTools"));
+        Image image=new Image("frontend/images/banner.png", "logo");
+        image.setHeight("80px");
+        appLayoutMenu.addMenuItem(image);
+        //appLayout.setBranding(new Span("JuniorDeveloperTools"));
+        //appLayout.setBranding(image);
         appLayoutMenu.addMenuItem(new AppLayoutMenuItem(tabs));
 
     }

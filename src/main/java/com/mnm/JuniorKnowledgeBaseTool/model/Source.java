@@ -25,6 +25,7 @@ public class Source {
     private String description;
 
     @ManyToOne
+    @JoinColumn(name="playlist_id", nullable = false)
     private Playlist playlist;
 //
 //    //    @OneToMany

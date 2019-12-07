@@ -10,6 +10,7 @@ import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Anchor;
@@ -37,7 +38,7 @@ import java.util.Map;
 
 @Route(value = "my_playlists", layout = MainView.class)
 //@Theme(value = Lumo.class, variant = Lumo.LIGHT)
-@HtmlImport("styles/shared-styles.css")
+@HtmlImport("styles/shared-styles.html")
 public class MyPlaylists extends HorizontalLayout {
     private HorizontalLayout newPlaylistLayout = new HorizontalLayout();
     private TextField playlistName = new TextField();
@@ -79,6 +80,8 @@ public class MyPlaylists extends HorizontalLayout {
         Grid.Column<Playlist> playlistNameColumn = playlistGrid.addColumn(new ComponentRenderer<>(playlist -> {
             Button button=new Button();
             button.setText(playlist.getPlaylistName());
+            button.addThemeVariants(ButtonVariant.LUMO_LARGE, ButtonVariant.LUMO_PRIMARY);
+            button.setWidth("75%");
             button.addClickListener(buttonClickEvent -> {
                 System.out.println("Klikałke");
 //                for (Playlist playlist1 : playlistGrid.getSelectedItems()) {

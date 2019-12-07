@@ -7,11 +7,14 @@ import com.mnm.JuniorKnowledgeBaseTool.repositories.PlaylistRepository;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.SourceRepoImpl;
 import com.mnm.JuniorKnowledgeBaseTool.services.CommentListService;
 import com.mnm.JuniorKnowledgeBaseTool.services.screenshotFromWebpage.ThumbnailCreator;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.*;
@@ -28,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Route(value = "sources")
-@HtmlImport("styles/shared-styles.css")
+@Route(value = "sources", layout=MainView.class)
+@HtmlImport("styles/shared-styles.html")
 public class SourceComponent extends HorizontalLayout implements HasUrlParameter<String> {
 
     private NewSource newSource;
@@ -68,6 +71,7 @@ public class SourceComponent extends HorizontalLayout implements HasUrlParameter
     }
 
     public SourceComponent(ThumbnailCreator thumbnailCreator, SourceRepoImpl sourceRepo, CommentListService commentListService, CommentRepository commentRepository, PlaylistRepository playlistRepository) {
+        addClassName("source-component");
         this.thumbnailCreator = thumbnailCreator;
         this.sourceRepo = sourceRepo;
         this.commentListService = commentListService;
@@ -82,30 +86,37 @@ public class SourceComponent extends HorizontalLayout implements HasUrlParameter
     }
 
     public void generateSourcesView(ThumbnailCreator thumbnailCreator, SourceRepoImpl sourceRepo) {
-        //         creating new source or list if empty
-        if (activePlaylist.getSources() == null) {
-            activePlaylist.setSources(new ArrayList<Source>());
-            sources = activePlaylist.getSources();
-
-        } else {
-            sources = activePlaylist.getSources();
-        }
-
 //        adding new source
-        newSource = new NewSource(sourceRepo, thumbnailCreator);
-        sourceRepo.findAll().forEach(source -> sources.add(source));
+        newSource = new NewSource(sourceRepo, thumbnailCreator, activePlaylist);
+        sourceRepo.findAllByPlaylist(activePlaylist).forEach(source -> sources.add(source));
+        System.out.println("W source component: " + activePlaylist.getId());
         sourceGrid.setItems(sources);
         sourceGrid.removeAllColumns();
         sourceGrid.setHeightByRows(true);
         Grid.Column<Source> thumbnailColumn = sourceGrid.addColumn(new ComponentRenderer<>(source -> {
-            return new Image(source.getThumbnailUrl(), "thumbnail");
-        }));
-        Grid.Column<Source> sourceNameColumn = sourceGrid.addColumn(Source::getName);
-        Grid.Column<Source> sourceDescription = sourceGrid.addColumn(Source::getDescription);
+            Image image = new Image(source.getThumbnailUrl(), "thumbnail");
+            image.setHeight("150px");
+            return image;
+        })).setHeader("Thumbnail");
+        Grid.Column<Source> sourceNameColumn = sourceGrid.addColumn(Source::getName).setHeader("Name");
+        Grid.Column<Source> sourceDescription = sourceGrid.addColumn(Source::getDescription).setHeader("Description");
 
 //        sourceGrid.setColumns("thumbnailColumn", "sourceNameColumn", "sourceDescription");
         Button textField=new Button(activePlaylist.getPlaylistName());
-        add(textField,sourceGrid,newSource);
+        textField.setHeight("80px");
+        textField.addThemeVariants(ButtonVariant.LUMO_LARGE, ButtonVariant.LUMO_PRIMARY);
+        sourceGrid.setHeight("100%");
+        VerticalLayout verticalLayout= new VerticalLayout();
+        verticalLayout.setWidth("70%");
+        verticalLayout.setHeight("80%");
+        verticalLayout.add(textField, sourceGrid);
+        newSource.setHeight("100%");
+        newSource.setWidth("30%");
+        add(verticalLayout,newSource);
+        setHeight("100%");
+//        setJustifyContentMode(JustifyContentMode.AROUND);
+//        setAlignItems(Alignment.CENTER);
+
     }
 
 
