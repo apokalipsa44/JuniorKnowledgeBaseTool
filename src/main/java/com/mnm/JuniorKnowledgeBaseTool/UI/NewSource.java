@@ -1,9 +1,12 @@
 package com.mnm.JuniorKnowledgeBaseTool.UI;
 
+import com.mnm.JuniorKnowledgeBaseTool.model.Playlist;
 import com.mnm.JuniorKnowledgeBaseTool.model.Source;
+import com.mnm.JuniorKnowledgeBaseTool.repositories.PlaylistRepository;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.SourceRepoImpl;
 import com.mnm.JuniorKnowledgeBaseTool.services.screenshotFromWebpage.ThumbnailCreator;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -16,6 +19,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Route("newsource")
 @UIScope
@@ -32,9 +37,12 @@ public class NewSource extends VerticalLayout {
 
     private SourceRepoImpl sourceRepo;
     private ThumbnailCreator thumbnailCreator;
+    private Playlist activePlaylist;
+    private List<Source> sources = new ArrayList<>();
 
 
-    public NewSource(SourceRepoImpl sourceRepo, ThumbnailCreator thumbnailCreator) {
+    public NewSource(SourceRepoImpl sourceRepo, ThumbnailCreator thumbnailCreator, Playlist activePlaylist) {
+        this.activePlaylist = activePlaylist;
         this.sourceRepo = sourceRepo;
         this.thumbnailCreator = thumbnailCreator;
 
@@ -63,10 +71,6 @@ public class NewSource extends VerticalLayout {
                 } catch (NoSuchAlgorithmException ex) {
                     ex.printStackTrace();
                 }
-                //binds saves values from form to new source
-
-                System.out.println(source.getThumbnailUrl());
-                sourceRepo.save(source);
             }
 
 
@@ -77,9 +81,12 @@ public class NewSource extends VerticalLayout {
             // option "other video""Other video"
             if (source.getSourceType().equals("Other video")) {
                 source.setThumbnailUrl(createThumbnailFromDefault());
-                sourceRepo.save(source);
-                System.out.println("source saved");
+
             }
+            source.setPlaylist(activePlaylist);
+            sourceRepo.save(source);
+            System.out.println("source saved");
+            UI.getCurrent().getPage().reload();
         });
 
         add(text, name, url, sourceTypeSelect, description, saveButton);

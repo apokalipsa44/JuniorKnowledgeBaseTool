@@ -2,6 +2,7 @@ package com.mnm.JuniorKnowledgeBaseTool.UI;
 
 import com.mnm.JuniorKnowledgeBaseTool.model.UserRole;
 import com.mnm.JuniorKnowledgeBaseTool.services.UserFormService;
+import com.mnm.JuniorKnowledgeBaseTool.services.UserFormServiceAdmin;
 import com.mnm.JuniorKnowledgeBaseTool.services.UserGridService;
 import com.mnm.JuniorKnowledgeBaseTool.services.UserRoleService;
 import com.vaadin.flow.component.dependency.HtmlImport;
@@ -17,18 +18,17 @@ import org.springframework.security.access.annotation.Secured;
 
 @Route(value = "admin", layout = MainView.class)
 @Secured(UserRole.ADMIN)
-//@Theme(value = Lumo.class, variant = Lumo.LIGHT)
-@HtmlImport("styles/shared-styles.css")
+@HtmlImport("styles/shared-styles.html")
 public class AdminView extends VerticalLayout {
     private UserGridService gridService;
     private UserRoleService userRoleService;
-    private UserFormService userFormService;
+    private UserFormServiceAdmin userFormServiceAdmin;
 
     @Autowired
-    public AdminView(UserGridService gridService, UserRoleService userRoleService, UserFormService userFormService) {
+    public AdminView(UserGridService gridService, UserRoleService userRoleService, UserFormServiceAdmin userFormService) {
         this.gridService = gridService;
         this.userRoleService = userRoleService;
-        this.userFormService = userFormService;
+        this.userFormServiceAdmin = userFormService;
 
         add("User administration panel");
         add(gridService.setUserGrid());
