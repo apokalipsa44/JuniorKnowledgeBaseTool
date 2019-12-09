@@ -96,6 +96,11 @@ public class SourceComponent extends HorizontalLayout implements HasUrlParameter
         Grid.Column<Source> thumbnailColumn = sourceGrid.addColumn(new ComponentRenderer<>(source -> {
             Image image = new Image(source.getThumbnailUrl(), "thumbnail");
             image.setHeight("150px");
+            image.addClickListener(e->{
+                String url=source.getSourceUrl();
+                url="\""+url+"\"";
+                UI.getCurrent().getPage().executeJavaScript("window.open("+url+", \"_blank\");");
+            });
             return image;
         })).setHeader("Thumbnail");
         Grid.Column<Source> sourceNameColumn = sourceGrid.addColumn(Source::getName).setHeader("Name");

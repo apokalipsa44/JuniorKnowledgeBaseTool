@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,6 +25,9 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Playlist> playlists;
 
     //private Enum<UserRole> role;
     private String role;

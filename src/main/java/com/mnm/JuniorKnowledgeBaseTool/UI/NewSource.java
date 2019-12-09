@@ -94,7 +94,7 @@ public class NewSource extends VerticalLayout {
     }
 
     private String createThumbnailFromDefault() {
-        return "frontend/images/default_video.jpg";
+        return "frontend/images/other-video.png";
     }
 
     private String createThumbnailFromYoutube() {

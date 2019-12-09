@@ -1,8 +1,10 @@
 package com.mnm.JuniorKnowledgeBaseTool.UI;
 
 import com.mnm.JuniorKnowledgeBaseTool.model.Playlist;
+import com.mnm.JuniorKnowledgeBaseTool.model.User;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.CommentRepository;
 import com.mnm.JuniorKnowledgeBaseTool.repositories.PlaylistRepository;
+import com.mnm.JuniorKnowledgeBaseTool.repositories.UserRepository;
 import com.mnm.JuniorKnowledgeBaseTool.services.CommentListService;
 import com.mnm.JuniorKnowledgeBaseTool.services.PlaylistService;
 import com.vaadin.flow.component.Component;
@@ -30,6 +32,8 @@ import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,22 +53,33 @@ public class MyPlaylists extends HorizontalLayout {
     private CommentListService commentListService;
     private Accordion commentForm;
 
+    private User activeUser;
 
+    private UserRepository userRepository;
     private PlaylistRepository playlistRepository;
     private CommentRepository commentRepository;
 
     @Autowired
-    public MyPlaylists(PlaylistRepository playlistRepository, CommentRepository commentRepository) {
+    public MyPlaylists(PlaylistRepository playlistRepository, CommentRepository commentRepository, UserRepository userRepository) {
         this.playlistRepository = playlistRepository;
         this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
+
+        this.activeUser = getActveUser(userRepository);
+
+        System.out.println(activeUser.getUsername());
+
         this.dataProvider = new ListDataProvider<>(playlistInit());
-        //initializePlaylists();
+//creates new playlist
         addPlaylistBtn.addClickListener(e -> {
             Playlist playlist = new Playlist();
             playlist.setPlaylistName(this.playlistName.getValue());
+            playlist.setUser(activeUser);
+            playlists.add(playlist);
             playlistRepository.save(playlist);
-            playlistGrid.setItems(playlistRepository.findAll());
+            playlistGrid.setItems(activeUser.getPlaylists());
             System.out.println("playlist saved");
+            System.out.println(playlist.getUser().getUsername());
             playlistName.clear();
         });
         playlistName.setPlaceholder("enter new playlist name");
@@ -78,7 +93,7 @@ public class MyPlaylists extends HorizontalLayout {
         playlistGrid.setDataProvider(dataProvider);
         playlistGrid.removeAllColumns();
         Grid.Column<Playlist> playlistNameColumn = playlistGrid.addColumn(new ComponentRenderer<>(playlist -> {
-            Button button=new Button();
+            Button button = new Button();
             button.setText(playlist.getPlaylistName());
             button.addThemeVariants(ButtonVariant.LUMO_LARGE, ButtonVariant.LUMO_PRIMARY);
             button.setWidth("75%");
@@ -91,9 +106,9 @@ public class MyPlaylists extends HorizontalLayout {
 //                }
 
 //                String route = UI.getCurrent().getRouter().getUrl(SourceComponent.class, playlist.getPlaylistUrl());
-                Map<String, String> map=new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 map.put("playlistId", String.valueOf(playlist.getId()));
-                QueryParameters queryParameters=QueryParameters.simple(map);
+                QueryParameters queryParameters = QueryParameters.simple(map);
                 UI.getCurrent().navigate("sources", queryParameters);
 
                 System.out.println("++++++++++");
@@ -101,21 +116,25 @@ public class MyPlaylists extends HorizontalLayout {
             return button;
         })).setHeader("Playlist");
         //kolumnaa ilosc sources w playlist
-        //todo playlist::getSouurcesCount()
-        Grid.Column<Playlist> playlistSizeColumn=playlistGrid.addColumn(Playlist::getId).setHeader("Playlist Id");
+        Grid.Column<Playlist> playlistSizeColumn = playlistGrid.addColumn(Playlist::getSourcesCount).setHeader("Playlist Id");
 //        playlistGrid.setColumns("playlistNameColumn", "playlistSizeColumn");
         commentForm = commentListService.commentAddForm(commentRepository);
         add(verticalLayout, commentForm);
     }
 
-    public List<Playlist> playlistInit() {
+    public User getActveUser(UserRepository userRepository) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(userDetails.getUsername());
+    }
 
-        this.playlists= playlistRepository.findAll();
+    public List<Playlist> playlistInit() {
+playlists.clear();
+        playlists = activeUser.getPlaylists();
         System.out.println("Rozmiar: " + this.playlists.size());
-        for(Playlist play : this.playlists) {
-            System.out.println("tutaj: "+ play.getPlaylistName());
+        for (Playlist play : this.playlists) {
+            System.out.println("tutaj: " + play.getPlaylistName());
         }
-        return this.playlists;
+        return playlists;
     }
 
 }
