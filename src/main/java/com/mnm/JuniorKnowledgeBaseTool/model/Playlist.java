@@ -24,10 +24,15 @@ public class Playlist {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "playlist", cascade = CascadeType.ALL)
     private List<Source> sources;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
     //@OneToMany
     //private List<Comment> comments;
 
-
-
+    public String getSourcesCount() {
+        return (sources == null) ? "No sources available" : "Available " + getSources().size() + " source(s)";
+    }
 
 }
